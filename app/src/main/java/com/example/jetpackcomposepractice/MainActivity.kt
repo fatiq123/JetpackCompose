@@ -66,12 +66,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-
                     NameList(names = names)
-
-
                 }
-
 
             }
         }
