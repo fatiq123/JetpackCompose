@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 @Composable
 fun Navigation() {
@@ -32,11 +34,21 @@ fun Navigation() {
     val navController = rememberNavController()
     // 2. we have to create a navHost
     NavHost(navController = navController, startDestination = "MainScreen") {
+
         composable(route = Screen.MainScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = Screen.DetailScreen.route) {
-            DetailScreen(name = "")
+
+        composable(route = Screen.DetailScreen.route + "/{name}",
+            listOf(
+                navArgument("name") {
+                    type = NavType.StringType
+                    defaultValue = "User"
+                    nullable = true
+                }
+
+            )) { backEntry ->
+            DetailScreen(name = backEntry.arguments?.getString("name"))
         }
     }
 }
@@ -65,7 +77,7 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(onClick = {
-            navController.navigate(Screen.DetailScreen.route)
+            navController.navigate(Screen.DetailScreen.withArgs(textField))
         }, modifier = Modifier.align(Alignment.End)) {
             Text(text = "Go to detail Screen", color = Color.White)
         }
@@ -77,7 +89,8 @@ fun DetailScreen(name: String?) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Green)
+            .background(Color.Green),
+
     ) {
         Text(text = "Hello $name")
     }
