@@ -1,5 +1,6 @@
 package com.example.jetpackcomposepractice
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,16 +23,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.TextField
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,38 +56,67 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import java.util.Random
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-          
-//           CustomText()
-            ColorBox(Modifier.fillMaxSize())
+
+            SnackBar()
+
         }
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ColorBox(modifier: Modifier = Modifier) {
-    val color = remember {
-        mutableStateOf(Color.Red)
+fun SnackBar() {
+    val scaffoldState = rememberScaffoldState()
+    var textFieldState by remember {
+        mutableStateOf("")
     }
+    val scope = rememberCoroutineScope()
 
-    Box(modifier = modifier
-        .background(color = color.value)
-        .clickable {
-            color.value = Color(
-                kotlin.random.Random.nextFloat(),
-                kotlin.random.Random.nextFloat(),
-                kotlin.random.Random.nextFloat(),
-                1f
+    androidx.compose.material.Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
+        ) {
+            TextField(
+                value = textFieldState,
+                onValueChange = {
+                    textFieldState = it
+                },
+                label = { Text(text = "Enter your name") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
             )
-        }) {
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Button(onClick = {
+                    scope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar("hello: $textFieldState")
+                    }
+                }) {
+                    Text(text = "Please greet me", color = Color.White)
+                }
+            }
+        }
     }
-
 }
 
 @Composable
