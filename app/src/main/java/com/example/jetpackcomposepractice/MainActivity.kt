@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,71 +40,87 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val painter = painterResource(id = R.drawable.jetpack_compose)
-            val contentDescription = "This is fatiq's photo"
-            val title = "fatiq hussnain"
-            ImageCard(painter = painter, contentDescription = contentDescription, title = title)
+          
+//           CustomText()
+            ColorBox(Modifier.fillMaxSize())
         }
     }
 }
 
 @Composable
-fun ImageCard(
-    painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth(0.5f)
-            .padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 16.dp
-        )
+fun ColorBox(modifier: Modifier = Modifier) {
+    val color = remember {
+        mutableStateOf(Color.Red)
+    }
 
+    Box(modifier = modifier
+        .background(color = color.value)
+        .clickable {
+            color.value = Color(
+                kotlin.random.Random.nextFloat(),
+                kotlin.random.Random.nextFloat(),
+                kotlin.random.Random.nextFloat(),
+                1f
+            )
+        }) {
+
+    }
+
+}
+
+@Composable
+fun CustomText() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
     ) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Crop
-        )
-
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black
-                        ),
-                        startY = 300f
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green,
+                        fontSize = 55.sp
                     )
-                )
-        ) {
+                ) {
+                    append("F")
+                }
+                append("atiq")
 
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(12.dp), contentAlignment = Alignment.BottomStart
-            ) {
-                Text(text = title, style = TextStyle(color = Color.White, fontSize = 15.sp))
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green,
+                        fontSize = 55.sp
+                    )
+                ) {
+                    append("H")
+                }
 
-            }
-        }
+                append("ussnain")
+            },
+            color = Color.White,
+            fontSize = 30.sp,
+            fontFamily = FontFamily.Monospace,
+            textDecoration = TextDecoration.Underline
+        )
     }
 }
+
 
 
 
