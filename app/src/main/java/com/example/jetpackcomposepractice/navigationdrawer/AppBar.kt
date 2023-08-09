@@ -19,7 +19,7 @@ fun AppBar(
         contentColor = MaterialTheme.colors.onPrimary,
         navigationIcon = {
             IconButton(
-                onClick = { onNavigationIconClick }) {
+                onClick = { onNavigationIconClick() }) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Toggle Drawer")
 
             }
