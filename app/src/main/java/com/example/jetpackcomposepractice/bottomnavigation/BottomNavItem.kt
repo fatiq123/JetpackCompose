@@ -1,4 +1,4 @@
-package com.example.jetpackcomposepractice
+package com.example.jetpackcomposepractice.bottomnavigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

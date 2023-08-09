@@ -1,4 +1,4 @@
-package com.example.jetpackcomposepractice
+package com.example.jetpackcomposepractice.navigation
 
 sealed class Screen(val route: String) {
     data object MainScreen : Screen(route = "MainScreen")
