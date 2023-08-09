@@ -27,7 +27,6 @@ fun DrawerHeader() {
         contentAlignment = Alignment.Center
     ) {
         Text(text = "header", fontSize = 60.sp)
-
     }
 }
 
