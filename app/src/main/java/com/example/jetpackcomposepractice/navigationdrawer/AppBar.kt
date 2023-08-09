@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun AppBar(
     onNavigationIconClick: () -> Unit,
-    function: () -> Unit,
 ) {
     TopAppBar(
         title = { Text(text = "Navigation Compose App") },

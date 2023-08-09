@@ -17,13 +17,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.TextField
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -76,11 +74,10 @@ class MainActivity : ComponentActivity() {
                             scope.launch {
                                 scaffoldState.drawerState.open()
                             }
-                        }) {
-
-                    }
-
-                }, drawerContent = {
+                        }
+                    )
+                },
+                drawerContent = {
                     DrawerHeader()
                     DrawerBody(
                         menus = listOf(
