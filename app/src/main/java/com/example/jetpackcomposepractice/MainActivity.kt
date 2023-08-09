@@ -26,6 +26,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -63,16 +67,46 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import java.util.Random
 
 class MainActivity : ComponentActivity() {
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 
-            Navigation()
+            val navController = rememberNavController()
+
+            Scaffold(
+                bottomBar = {
+                    BottomNavigationBar(
+                        items = listOf(
+                            BottomNavItem(
+                                name = "Home",
+                                route = "home",
+                                icon = Icons.Default.Home
+                            ),
+                            BottomNavItem(
+                                name = "Chat",
+                                route = "chat",
+                                icon = Icons.Default.Notifications,
+                                badgeCount = 25
+                            ),
+                            BottomNavItem(
+                                name = "Settings",
+                                route = "settings",
+                                icon = Icons.Default.Settings
+                            )
+                        ),
+                        navController = navController,
+                        onItemClick = { navController.navigate(it.route) })
+                }
+            ) {
+                BottomNavigation(navHostController = navController)
+            }
 
         }
     }
